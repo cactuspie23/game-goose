@@ -2,10 +2,9 @@
 <%- include('../partials/nav') %>
 
 <main>
-  <%# Add the action below as the update UI %> 
   <form 
     class="container d-flex flex-column align-items-center"
-    action=""
+    action="/profiles/<%= profile._id %>?_method=PATCH"
     method="POST"
   >
     <div class="mb-3 w-75">
