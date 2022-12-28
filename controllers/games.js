@@ -15,6 +15,28 @@ function search(req, res) {
   })
 }
 
+function show(req, res) {
+  axios
+  .get(`https://api.rawg.io/api/games/${req.params.id}?key=${process.env.API_KEY}`)
+  .then(response => {
+    Game.findOne({ rawgId: response.data.id })
+
+    .then((game)=> {
+      res.render("games/show", {
+        title: "Game Details",
+        apiResult: response.data,
+        game,
+        userHasGame: game?.collectedBy.some(profile => profile._id.equals(req.user.profile._id)),
+      })
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/')
+  })
+}
+
 export {
   search,
+  show,
 }

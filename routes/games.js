@@ -3,6 +3,7 @@ import * as gamesCtrl from '../controllers/games.js'
 
 const router = Router()
 
+router.get('/:id', isLoggedIn, gamesCtrl.show)
 router.post('/search', isLoggedIn, gamesCtrl.search)
 
 function isLoggedIn(req, res, next) {
