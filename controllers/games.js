@@ -36,7 +36,47 @@ function show(req, res) {
   })
 }
 
+function addToCollection(req, res) {
+  req.body.collectedBy = req.user.profile._id
+  Game.findOne({ rawgId: req.params.id} )
+  .then(game => {
+    if (game) {
+      game.collectedBy.push(req.user.profile._id)
+      game.save()
+      .then(() => {
+        res.redirect(`/games/${req.params.id}`)
+      })
+    } else {
+      Game.create(req.body)
+      .then(() => {
+        res.redirect(`/games/${req.params.id}`)
+      })
+    }
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/')
+  })
+}
+
+function removeFromCollection(req, res) {
+  Game.findOne({ rawgId: req.params.id })
+  .then(game => {
+    game.collectedBy.remove({_id: req.user.profile._id})
+    game.save()
+    .then(() => {
+      res.redirect(`/games/${req.params.id}`)
+    })
+  })
+  .catch(err => {
+    console.log(err)
+    res.redirect('/')
+  })
+}
+
 export {
   search,
   show,
+  addToCollection,
+  removeFromCollection,
 }
