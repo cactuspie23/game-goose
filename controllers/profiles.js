@@ -1,4 +1,5 @@
 import { Profile } from "../models/profile.js"
+import { Game } from "../models/game.js"
 
 function index(req, res) {
   Profile.find({})
@@ -14,12 +15,16 @@ function show(req, res) {
   Profile.findById(req.params.id)
   .populate('friends')
   .then((profile) => {
-    Profile.findById(req.user.profile)
-    .then(userProfile => {
-      res.render('profiles/show', {
-        title: `${profile.name}'s profile`,
-        profile,
-        userProfile,
+    Game.find({ collectedBy: profile._id })
+    .then(games => {
+      Profile.findById(req.user.profile)
+      .then(userProfile => {
+        res.render('profiles/show', {
+          title: `${profile.name}'s profile`,
+          profile,
+          userProfile,
+          games
+        })
       })
     })
   })
