@@ -20,6 +20,7 @@ function show(req, res) {
   axios.get(`https://api.rawg.io/api/games/${req.params.id}?key=${process.env.API_KEY}`)
   .then(response => {
     Game.findOne({ rawgId: response.data.id })
+    .populate('collectedBy')
 
     .then((game)=> {
       res.render('games/show', {
