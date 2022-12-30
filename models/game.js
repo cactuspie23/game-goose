@@ -7,6 +7,7 @@ const gameSchema = new Schema({
   released: Date,
   imageUrl: String,
   collectedBy: [{ type: Schema.Types.ObjectId, ref: 'Profile' }],
+  reviews: [{ type: Schema.Types.ObjectId, ref: 'GameReview' }],
 },{
   timestamps: true,
 })
