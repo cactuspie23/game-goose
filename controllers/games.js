@@ -1,4 +1,5 @@
 import { Game } from '../models/game.js'
+import { GameReveiw } from '../models/gameReview.js'
 import axios from 'axios'
 
 function search(req, res) {
@@ -21,13 +22,19 @@ function show(req, res) {
   .then(response => {
     Game.findOne({ rawgId: response.data.id })
     .populate('collectedBy')
-
+    .populate({
+      path: 'reviews',
+      populate: {
+        path: 'author'
+      }
+    })
     .then((game)=> {
       res.render('games/show', {
         title: 'Game Details',
         apiResult: response.data,
         game,
         userHasGame: game?.collectedBy.some(profile => profile._id.equals(req.user.profile._id)),
+        userHasReviewed: game?.reviews.some(review => review.author?.equals(req.user.profile._id)),
       })
     })
   })
