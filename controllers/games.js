@@ -1,5 +1,5 @@
 import { Game } from '../models/game.js'
-import { GameReveiw } from '../models/gameReview.js'
+import { GameReview } from '../models/gameReview.js'
 import axios from 'axios'
 
 function search(req, res) {
