@@ -12,6 +12,15 @@ function index(req, res) {
   })
 }
 
+function create(req, res) {
+  req.body.author = req.user.profile._id
+  Message.create(req.body)
+  .then(() => {
+    res.redirect('/messages')
+  })
+}
+
 export {
-  index
+  index,
+  create
 }
