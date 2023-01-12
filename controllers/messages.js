@@ -20,7 +20,25 @@ function create(req, res) {
   })
 }
 
+function show(req, res) {
+  Message.findById(req.params.id)
+  .populate('author')
+  .populate({
+    path: 'replies',
+    populate: {
+      path: 'author'
+    }
+  })
+  .then(message => {
+    res.render('messages/show'), {
+      title: 'Message Details',
+      message
+    }
+  })
+}
+
 export {
   index,
-  create
+  create,
+  show
 }

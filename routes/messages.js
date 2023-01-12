@@ -4,6 +4,7 @@ import * as messagesCtrl from '../controllers/messages.js'
 const router = Router()
 
 router.get('/', isLoggedIn, messagesCtrl.index)
+router.get('/:id', isLoggedIn, messagesCtrl.show)
 router.post('/', isLoggedIn, messagesCtrl.create)
 
 function isLoggedIn(req, res, next) {
